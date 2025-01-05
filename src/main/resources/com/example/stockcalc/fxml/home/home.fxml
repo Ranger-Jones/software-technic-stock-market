@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.layout.HBox?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.stockcalc.controller.HomeController" fx:id="rootPane">
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+            <ImageView fx:id="logoImage" fitHeight="100" fitWidth="100"/>
+            <TextField fx:id="searchField" promptText="Aktien-Symbol eingeben" maxWidth="500" styleClass="text-field"
+                       onAction="#onEnter"/>
+            <Button fx:id="searchButton" text="Suchen" onAction="#handleSearch" maxWidth="500"
+                    styleClass="search-button"/>
+            <BorderPane styleClass="infoContainer" maxWidth="500">
+                <center>
+                    <HBox>
+                        <FontIcon iconColor="white" iconLiteral="fas-info" iconSize="20"  />
+                        <Label text="Bitte beachten Sie, es können ausschließlich Symbole aus dem US-Amerikanischen Markt geladen werden. Zudem gibt es die Limitation, dass nur 5 Symbole pro Minute geladen werden können. Die Limitation kommen von der kostenlosen Nutzung der 'polygon'-API. Vielen Dank für Ihr Verständnis."
+                               style="-fx-text-fill: white; -fx-padding: 0 0 0 10" wrapText="true"/>
+                    </HBox>
+                </center>
+            </BorderPane>
+            <BorderPane maxWidth="500" styleClass="errorContainer" fx:id="errorContainer" visible="false">
+                <center>
+                    <Label fx:id="error" style="-fx-text-fill: white"/>
+                </center>
+            </BorderPane>
+
+        </VBox>
+    </center>
+</BorderPane>

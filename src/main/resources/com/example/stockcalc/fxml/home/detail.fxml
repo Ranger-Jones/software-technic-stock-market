@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane fx:id="rootPane" fx:controller="com.example.stockcalc.controller.DetailController"
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+        <ScrollPane
+                fx:id="scrollPane" fitToWidth="true" style="-fx-padding: 10;"
+        >
+            <VBox>
+                <VBox alignment="TOP_CENTER" style="-fx-padding: 0 5 0 5">
+                    <BorderPane fx:id="topPane" style="-fx-padding: 10 0 0 0;">
+                        <bottom>
+                            <BorderPane fx:id="infoPane" style="-fx-padding: 0 0 0 10;">
+                                <left>
+                                    <HBox alignment="CENTER" style="-fx-padding: 10 0 10 0">
+
+                                        <Label fx:id="tickerName" text="Ticker" styleClass="ticker-label"
+                                               BorderPane.alignment="CENTER" style="-fx-padding: 0 10 0 0"/>
+                                        <Label fx:id="tickerLabel" text="Ticker" styleClass="badge"
+                                               BorderPane.alignment="CENTER"/>
+                                    </HBox>
+                                </left>
+                            </BorderPane>
+                        </bottom>
+                        <center>
+                            <TextField fx:id="searchField" promptText="Neues Symbol eingeben"
+                                       BorderPane.alignment="CENTER"
+                                       onAction="#onEnter" maxWidth="200" alignment="CENTER"/>
+                        </center>
+                    </BorderPane>
+                    <Label fx:id="description" wrapText="true" style="-fx-padding: 10 5 20 5"/>
+                    <HBox fx:id="valueRow" spacing="10" style="-fx-padding: 0;">
+                        <!-- Dynamische Elemente werden hier hinzugefügt -->
+                    </HBox>
+                </VBox>
+                <LineChart fx:id="stockChart" title="Stock Prices" animated="true" style="-fx-padding: 10;">
+                    <xAxis>
+                        <CategoryAxis fx:id="xAxis" label="Time"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="yAxis" label="Price"/>
+                    </yAxis>
+                </LineChart>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>
