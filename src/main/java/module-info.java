@@ -6,6 +6,8 @@ module com.example.stockcalc {
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
 
+    requires java.sql;
+
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.databind;
     requires io.github.cdimascio.dotenv.java;

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.stockcalc.controller.TickerNewsController"
+>
+    <VBox>
+        <Label fx:id="tickerTitle" styleClass="h3" style="-fx-text-fill: #ecf0f1"/>
+        <HBox>
+            <Label fx:id="tickerValue" styleClass="h4"/>
+        </HBox>
+    </VBox>
+
+</AnchorPane>

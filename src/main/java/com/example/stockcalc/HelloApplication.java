@@ -1,6 +1,7 @@
 package com.example.stockcalc;
 
 import com.example.stockcalc.constants.FileNames;
+import com.example.stockcalc.server.DatabaseStorage;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,6 +23,7 @@ public class HelloApplication extends Application {
     }
 
     public static void main(String[] args) {
+        DatabaseStorage.initializeDatabase();
         launch(args);
     }
 }
