@@ -1,6 +1,8 @@
 package com.example.stockcalc.controller;
 
+import com.example.stockcalc.constants.DatePattern;
 import com.example.stockcalc.constants.FileNames;
+import com.example.stockcalc.constants.Text;
 import com.example.stockcalc.functions.NumberFormatter;
 import com.example.stockcalc.functions.SearchFunctions;
 import com.example.stockcalc.model.StockMarketAPIResponse;
@@ -41,9 +43,6 @@ public class DetailController {
     private HBox valueRow;
 
     @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
     private Label tickerName;
 
     @FXML
@@ -57,9 +56,9 @@ public class DetailController {
         description.setText(tickerDetails.getResults().getDescription());
 
         String[][] values = {
-                {"Close Stock yesterday", NumberFormatter.formatLargeNumber(data.getResults().get(data.getResults().size() - 1).getC()), " USD"},
-                {"Market Cap", NumberFormatter.formatLargeNumber(tickerDetails.getResults().getMarketCap()), " USD"},
-                {"Volume", NumberFormatter.formatLargeNumber(data.getResults().get(data.getResults().size() - 1).getV()), " USD"}
+                {Text.CLOSE_STOCK_YESTERDAY, NumberFormatter.formatLargeNumber(data.getResults().get(data.getResults().size() - 1).getC()), Text.USD},
+                {Text.MARKET_CAP, NumberFormatter.formatLargeNumber(tickerDetails.getResults().getMarketCap()), Text.USD},
+                {Text.VOLUME, NumberFormatter.formatLargeNumber(data.getResults().get(data.getResults().size() - 1).getV()), Text.USD}
         };
 
         try {
@@ -78,7 +77,7 @@ public class DetailController {
 
     private void populateChart(StockMarketAPIResponse data) {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Stock Price Over Time");
+        series.setName(Text.CHART_TITLE);
 
         double maxValue = data.getResults().stream()
                 .mapToDouble(StockMarketAPIResponse.Result::getC)
@@ -106,7 +105,7 @@ public class DetailController {
     private String formatTimestamp(long timestamp) {
         java.time.Instant instant = java.time.Instant.ofEpochMilli(timestamp);
         java.time.ZoneId zoneId = java.time.ZoneId.systemDefault();
-        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("dd.MM.yyyy").withZone(zoneId);
+        java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern(DatePattern.DATE_PATTERN).withZone(zoneId);
         return formatter.format(instant);
     }
 
