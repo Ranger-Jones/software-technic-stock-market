@@ -1,15 +1,12 @@
 package com.example.stockcalc.functions;
 
-import com.example.stockcalc.controller.HomeController;
 import com.example.stockcalc.model.StockMarketAPIResponse;
 import com.example.stockcalc.model.TickerDetailsResponse;
 import com.example.stockcalc.server.StockAPIClient;
 import com.example.stockcalc.utils.APICalls;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
