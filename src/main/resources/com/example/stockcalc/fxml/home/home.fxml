@@ -12,28 +12,39 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.stockcalc.controller.HomeController" fx:id="rootPane">
-    <center>
-        <VBox alignment="CENTER" spacing="20">
-            <ImageView fx:id="logoImage" fitHeight="100" fitWidth="100"/>
-            <TextField fx:id="searchField" promptText="Aktien-Symbol eingeben" maxWidth="500" styleClass="text-field"
-                       onAction="#onEnter"/>
-            <Button fx:id="searchButton" text="Suchen" onAction="#handleSearch" maxWidth="500"
-                    styleClass="search-button"/>
-            <BorderPane styleClass="infoContainer" maxWidth="500">
-                <center>
-                    <HBox>
-                        <FontIcon iconColor="white" iconLiteral="fas-info" iconSize="20"  />
-                        <Label text="Bitte beachten Sie, es können ausschließlich Symbole aus dem US-Amerikanischen Markt geladen werden. Zudem gibt es die Limitation, dass nur 5 Symbole pro Minute geladen werden können. Die Limitation kommen von der kostenlosen Nutzung der 'polygon'-API. Vielen Dank für Ihr Verständnis."
-                               style="-fx-text-fill: white; -fx-padding: 0 0 0 10" wrapText="true"/>
-                    </HBox>
-                </center>
-            </BorderPane>
-            <BorderPane maxWidth="500" styleClass="errorContainer" fx:id="errorContainer" visible="false">
-                <center>
-                    <Label fx:id="error" style="-fx-text-fill: white"/>
-                </center>
-            </BorderPane>
 
-        </VBox>
+    <center>
+        <BorderPane fx:id="homePane">
+            <top>
+                <HBox  style="-fx-background-color: #2c3e50;" >
+                    <HBox fx:id="tickerBar" spacing="20" alignment="CENTER">
+                    </HBox></HBox>
+            </top>
+            <center>
+                <VBox alignment="CENTER" spacing="20">
+                    <ImageView fx:id="logoImage" fitHeight="100" fitWidth="100"/>
+                    <TextField fx:id="searchField" promptText="Aktien-Symbol eingeben" maxWidth="500"
+                               styleClass="text-field"
+                               onAction="#onEnter"/>
+                    <Button fx:id="searchButton" text="Suchen" onAction="#handleSearch" maxWidth="500"
+                            styleClass="search-button"/>
+                    <BorderPane styleClass="infoContainer" maxWidth="500">
+                        <center>
+                            <HBox>
+                                <FontIcon iconColor="white" iconLiteral="fas-info" iconSize="20"/>
+                                <Label text="Bitte beachten Sie, es können ausschließlich Symbole aus dem US-Amerikanischen Markt geladen werden. Zudem gibt es die Limitation, dass nur 5 Symbole pro Minute geladen werden können. Die Limitation kommen von der kostenlosen Nutzung der 'polygon'-API. Vielen Dank für Ihr Verständnis."
+                                       style="-fx-text-fill: white; -fx-padding: 0 0 0 10" wrapText="true"/>
+                            </HBox>
+                        </center>
+                    </BorderPane>
+                    <BorderPane maxWidth="500" styleClass="errorContainer" fx:id="errorContainer" visible="false">
+                        <center>
+                            <Label fx:id="error" style="-fx-text-fill: white"/>
+                        </center>
+                    </BorderPane>
+
+                </VBox>
+            </center>
+        </BorderPane>
     </center>
 </BorderPane>
