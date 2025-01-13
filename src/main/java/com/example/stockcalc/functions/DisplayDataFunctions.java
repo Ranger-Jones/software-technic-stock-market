@@ -1,5 +1,6 @@
 package com.example.stockcalc.functions;
 
+import com.example.stockcalc.constants.Text;
 import com.example.stockcalc.controller.DetailController;
 import com.example.stockcalc.model.StockMarketAPIResponse;
 import com.example.stockcalc.model.TickerDetailsResponse;
@@ -21,7 +22,7 @@ public class DisplayDataFunctions {
             rootPane.setCenter(detailView);
         } catch (Exception e) {
             try {
-                ErrorFunctions.backToHome(rootPane, fallback, "Daten konnten nicht visualisiert werden!");
+                ErrorFunctions.backToHome(rootPane, fallback, Text.VISUALIZE_ERROR);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

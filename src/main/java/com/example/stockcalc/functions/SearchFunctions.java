@@ -1,5 +1,6 @@
 package com.example.stockcalc.functions;
 
+import com.example.stockcalc.constants.Text;
 import com.example.stockcalc.model.StockMarketAPIResponse;
 import com.example.stockcalc.model.TickerDetailsResponse;
 import com.example.stockcalc.server.StockAPIClient;
@@ -16,7 +17,7 @@ import java.time.Month;
 public class SearchFunctions {
     public static void search(String query, Label error, BorderPane rootPane, FXMLLoader loader, FXMLLoader fallback){
         if (query.isEmpty()) {
-            error.setText("Bitte gib einen Aktien-Symbol ein");
+            error.setText(Text.EMPTY_TEXT_FIELD);
         } else {
 
             LoadingFunctions.showLoadingScreen(rootPane);
@@ -35,7 +36,7 @@ public class SearchFunctions {
                     Platform.runLater(() -> DisplayDataFunctions.displayData(stockValues, tickerDetails, rootPane, loader, fallback));
                 } catch (Exception e) {
                     try {
-                        ErrorFunctions.backToHome(rootPane, fallback, "Symbol wurde nicht gefunden.");
+                        ErrorFunctions.backToHome(rootPane, fallback, Text.SYMBOL_NOT_FOUND_ERROR);
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
