@@ -1,19 +1,20 @@
 package com.example.stockcalc.controller;
 
+import com.example.stockcalc.constants.FileNames;
 import com.example.stockcalc.functions.NumberFormatter;
 import com.example.stockcalc.functions.SearchFunctions;
+import com.example.stockcalc.model.StockMarketAPIResponse;
 import com.example.stockcalc.model.TickerDetailsResponse;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import com.example.stockcalc.model.StockMarketAPIResponse;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
@@ -63,7 +64,7 @@ public class DetailController {
 
         try {
             for (String[] valueSet : values) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/stockcalc/fxml/home/value-container.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(FileNames.VALUE_CONTAINER));
                 Node valueContainer = loader.load();
                 ValueContainerController controller = loader.getController();
                 controller.setValues(valueSet[0], valueSet[1], valueSet[2]);
@@ -113,8 +114,8 @@ public class DetailController {
     public void onEnter(ActionEvent ae) {
         String newQuery = searchField.getText();
         if (newQuery != null && !newQuery.isEmpty()) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/stockcalc/fxml/home/detail.fxml"));
-            FXMLLoader fallback = new FXMLLoader(getClass().getResource("/com/example/stockcalc/fxml/home/home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(FileNames.DETAIL_SCREEN));
+            FXMLLoader fallback = new FXMLLoader(getClass().getResource(FileNames.HOME_SCREEN));
 
             SearchFunctions.search(newQuery, tickerLabel, rootPane, loader, fallback);
 

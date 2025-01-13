@@ -1,34 +1,22 @@
-// Updated HomeController.java
 package com.example.stockcalc.controller;
 
+import com.example.stockcalc.constants.FileNames;
 import com.example.stockcalc.functions.SearchFunctions;
-import com.example.stockcalc.model.StockMarketAPIResponse;
-import com.example.stockcalc.server.StockAPIClient;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 
-import java.io.IOException;
+import java.util.Objects;
 
 public class HomeController {
 
     @FXML
     private TextField searchField;
-
-    @FXML
-    private Button searchButton;
 
     @FXML
     private ImageView logoImage;
@@ -44,17 +32,14 @@ public class HomeController {
 
     @FXML
     public void initialize() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/stockcalc/fxml/home/detail.fxml"));
-        FXMLLoader fallback = new FXMLLoader(getClass().getResource("/com/example/stockcalc/fxml/home/home.fxml"));
-        //SearchFunctions.search("AAPL", error, rootPane, loader, fallback);
-        logoImage.setImage(new Image(getClass().getResource("/com/example/stockcalc/image/teddy.png").toString()));
+        logoImage.setImage(new Image(Objects.requireNonNull(getClass().getResource(FileNames.HOME_IMAGE)).toString()));
     }
 
     @FXML
     void handleSearch() {
         String query = searchField.getText();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/stockcalc/fxml/home/detail.fxml"));
-        FXMLLoader fallback = new FXMLLoader(getClass().getResource("/com/example/stockcalc/fxml/home/home.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(FileNames.DETAIL_SCREEN));
+        FXMLLoader fallback = new FXMLLoader(getClass().getResource(FileNames.HOME_SCREEN));
         SearchFunctions.search(query, error, rootPane, loader, fallback);
     }
 
@@ -63,21 +48,14 @@ public class HomeController {
         this.errorContainer.setVisible(true);
     }
 
-    public void clearError(){
-        this.error.setText("");
-        this.errorContainer.setVisible(false);
-    }
-
     @FXML
     public void onEnter(ActionEvent ae) {
         String newQuery = searchField.getText();
         if (newQuery != null && !newQuery.isEmpty()) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/stockcalc/fxml/home/detail.fxml"));
-            FXMLLoader fallback = new FXMLLoader(getClass().getResource("/com/example/stockcalc/fxml/home/home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(FileNames.DETAIL_SCREEN));
+            FXMLLoader fallback = new FXMLLoader(getClass().getResource(FileNames.HOME_SCREEN));
 
             SearchFunctions.search(newQuery, new Label(), rootPane, loader, fallback);
-
-            //topPane.getChildren().remove(searchField);
         }
     }
 }
