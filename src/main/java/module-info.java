@@ -16,5 +16,7 @@ module com.example.stockcalc {
     opens com.example.stockcalc.model to com.fasterxml.jackson.databind;
     opens com.example.stockcalc.controller to javafx.fxml;
 
+
+
     exports com.example.stockcalc;
 }
