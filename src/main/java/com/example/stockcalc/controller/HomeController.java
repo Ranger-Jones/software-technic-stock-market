@@ -5,9 +5,6 @@ import com.example.stockcalc.functions.LoadingFunctions;
 import com.example.stockcalc.functions.SearchFunctions;
 import com.example.stockcalc.functions.StartingData;
 import com.example.stockcalc.model.TemporarySaving;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -30,94 +27,100 @@ import java.util.Objects;
 public class HomeController {
 
     @FXML
-    private HBox tickerBar;
+    private HBox tickerBar; // Leiste zur Anzeige von Ticker-Elementen
 
     @FXML
-    private TextField searchField;
+    private TextField searchField; // Textfeld für die Suche
 
     @FXML
-    private ImageView logoImage;
+    private ImageView logoImage; // Bild für das Logo
 
     @FXML
-    private Label error;
+    private Label error; // Label zur Anzeige von Fehlernachrichten
 
     @FXML
-    private BorderPane rootPane;
+    private BorderPane rootPane; // Hauptlayout der Anwendung
 
     @FXML
-    private BorderPane errorContainer;
+    private BorderPane errorContainer; // Container für Fehleranzeige
 
     @FXML
-    private BorderPane homePane;
+    private BorderPane homePane; // Container für die Hauptansicht
 
+    // Diese Methode wird beim Initialisieren des Controllers aufgerufen
     @FXML
     public void initialize() {
-        tickerBar.getChildren().clear();
+        tickerBar.getChildren().clear(); // Leert die tickerBar zu Beginn
 
-        LoadingFunctions.showLoadingScreen(rootPane);
+        LoadingFunctions.showLoadingScreen(rootPane); // Zeigt einen Ladebildschirm an
 
         new Thread(() -> {
+            // Lädt die gespeicherten Daten im Hintergrund
             List<TemporarySaving> data = StartingData.load();
 
             Platform.runLater(() -> {
                 try {
-                    rootPane.setCenter(homePane);
+                    rootPane.setCenter(homePane); // Setzt das HomePane als Hauptinhalt
 
+                    // Setzt das Logo-Bild
                     logoImage.setImage(new Image(Objects.requireNonNull(getClass().getResource(FileNames.HOME_IMAGE)).toString()));
 
-                    // Ticker-Elemente dynamisch hinzufügen
+                    // Fügt für jedes Ticker-Element ein neues News-Element hinzu
                     for (TemporarySaving temporarySaving : data) {
-                        FXMLLoader tickerLoader = new FXMLLoader(getClass().getResource(FileNames.TICKER_NEWS));
-                        Node valueContainer = tickerLoader.load();
-                        TickerNewsController controller = tickerLoader.getController();
+                        FXMLLoader tickerLoader = new FXMLLoader(getClass().getResource(FileNames.TICKER_NEWS)); // Lädt das Ticker-News-Layout
+                        Node valueContainer = tickerLoader.load(); // Lädt das Node-Element
+                        TickerNewsController controller = tickerLoader.getController(); // Holt den Controller
                         controller.setValues(
-                                temporarySaving.getStockData()
+                                temporarySaving.getStockData() // Setzt die Werte für das Ticker-Element
                         );
-                        tickerBar.getChildren().add(valueContainer);
+                        tickerBar.getChildren().add(valueContainer); // Fügt das Ticker-Element der tickerBar hinzu
                     }
 
-                    // Layout der tickerBar erzwingen, um die Breite korrekt zu berechnen
+                    // Berechnet die Breite der tickerBar, um die Animation korrekt zu starten
                     tickerBar.layout();
 
-                    // Verzögere das Starten der Animation, um sicherzustellen, dass die Breite korrekt berechnet wurde
+                    // Verzögert den Start der Animation, um sicherzustellen, dass die Breite korrekt berechnet wurde
                     Platform.runLater(this::startTickerAnimation);
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    throw new RuntimeException("Fehler beim Laden der Ansichten", e);
+                    throw new RuntimeException("Fehler beim Laden der Ansichten", e); // Fehlerbehandlung
                 }
             });
         }).start();
     }
 
+    // Diese Methode wird aufgerufen, wenn der Benutzer die Suche ausführt
     @FXML
     void handleSearch() {
-        String query = searchField.getText();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(FileNames.DETAIL_SCREEN));
-        FXMLLoader fallback = new FXMLLoader(getClass().getResource(FileNames.HOME_SCREEN));
-        SearchFunctions.search(query, error, rootPane, loader, fallback);
+        String query = searchField.getText(); // Holt den Text aus dem Suchfeld
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(FileNames.DETAIL_SCREEN)); // Lädt das FXML für die Detailseite
+        FXMLLoader fallback = new FXMLLoader(getClass().getResource(FileNames.HOME_SCREEN)); // Lädt das Fallback für die Home-Seite
+        SearchFunctions.search(query, error, rootPane, loader, fallback); // Führt die Suchfunktion aus
     }
 
+    // Diese Methode startet die Animation für die tickerBar (laufende Ticker-Anzeige)
     private void startTickerAnimation() {
-        // Stelle sicher, dass die Breite von tickerBar korrekt ist, bevor die Animation gestartet wird
-        double tickerWidth = tickerBar.getWidth();
-        double sceneWidth = tickerBar.getScene().getWidth();  // Scene width
+        double tickerWidth = tickerBar.getWidth(); // Holt die Breite der tickerBar
+        double sceneWidth = tickerBar.getScene().getWidth();  // Holt die Breite der Szene
 
-        System.out.println("Scene width: " + sceneWidth); // Debugging-Zeile
-        System.out.println("TickerBar width: " + tickerWidth); // Debugging-Zeile
+        // Debugging-Ausgaben, um Breitenwerte zu überprüfen
+        System.out.println("Scene width: " + sceneWidth);
+        System.out.println("TickerBar width: " + tickerWidth);
 
         if (tickerWidth > 0 && sceneWidth > 0) {
-            // Erstelle die TranslateTransition Animation
+            // Erstelle eine TranslateTransition-Animation, die tickerBar von rechts nach links bewegt
             TranslateTransition transition = new TranslateTransition(Duration.seconds(10), tickerBar);
-            transition.setFromX(sceneWidth);
-            transition.setToX(-tickerWidth);
-            transition.setCycleCount(TranslateTransition.INDEFINITE);
-            transition.setInterpolator(javafx.animation.Interpolator.LINEAR);
-            transition.play();
+            transition.setFromX(sceneWidth); // Startposition am rechten Rand der Szene
+            transition.setToX(-tickerWidth); // Endposition außerhalb der linken Seite der Szene
+            transition.setCycleCount(TranslateTransition.INDEFINITE); // Animation läuft unendlich
+            transition.setInterpolator(javafx.animation.Interpolator.LINEAR); // Gleichmäßige Bewegung
+            transition.play(); // Starte die Animation
         } else {
-            // Wenn die Breite noch nicht verfügbar ist, versuche es später
+            // Wenn die Breite der tickerBar noch nicht verfügbar ist, setze einen Listener
             tickerBar.widthProperty().addListener((obs, oldWidth, newWidth) -> {
                 if (newWidth.doubleValue() > 0) {
+                    // Starte die Animation, sobald die Breite verfügbar ist
                     TranslateTransition transition = new TranslateTransition(Duration.seconds(10), tickerBar);
                     transition.setFromX(sceneWidth);
                     transition.setToX(-newWidth.doubleValue());
@@ -129,18 +132,21 @@ public class HomeController {
         }
     }
 
+    // Diese Methode wird verwendet, um Fehler anzuzeigen
     public void setError(String error) {
-        this.error.setText(error);
-        this.errorContainer.setVisible(true);
+        this.error.setText(error); // Setzt den Fehlertext
+        this.errorContainer.setVisible(true); // Zeigt den Fehlercontainer an
     }
 
+    // Diese Methode wird ausgeführt, wenn der Benutzer die Eingabetaste drückt
     @FXML
     public void onEnter(ActionEvent ae) {
-        String newQuery = searchField.getText();
-        if (newQuery != null && !newQuery.isEmpty()) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(FileNames.DETAIL_SCREEN));
-            FXMLLoader fallback = new FXMLLoader(getClass().getResource(FileNames.HOME_SCREEN));
+        String newQuery = searchField.getText(); // Holt den Text aus dem Suchfeld
+        if (newQuery != null && !newQuery.isEmpty()) { // Wenn das Suchfeld nicht leer ist
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(FileNames.DETAIL_SCREEN)); // Lädt die Detailansicht
+            FXMLLoader fallback = new FXMLLoader(getClass().getResource(FileNames.HOME_SCREEN)); // Lädt das Fallback (Home-Seite)
 
+            // Führt die Suche aus
             SearchFunctions.search(newQuery, new Label(), rootPane, loader, fallback);
         }
     }
