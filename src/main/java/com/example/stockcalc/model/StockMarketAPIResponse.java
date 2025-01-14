@@ -6,19 +6,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
-// Main Response Class
+/**
+ * Hauptklasse zur Darstellung der API-Antwort von Aktienmarktdaten.
+ */
 public class StockMarketAPIResponse {
+
+    // Felder der API-Antwort
     private String ticker;
     private int queryCount;
     private int resultsCount;
     private boolean adjusted;
     private List<Result> results;
     private String status;
+
     @JsonProperty("request_id")
     private String requestId;
     private int count;
 
-    // Getters and Setters
+    // Getter und Setter
     public String getTicker() {
         return ticker;
     }
@@ -83,18 +88,21 @@ public class StockMarketAPIResponse {
         this.count = count;
     }
 
-    // Nested Result Class
+    /**
+     * Verschachtelte Klasse zur Darstellung einzelner Ergebnisse der API-Antwort.
+     */
     public static class Result {
-        private double v;
-        private double vw;
-        private double o;
-        private double c;
-        private double h;
-        private double l;
-        private long t;
-        private int n;
 
-        // Getters and Setters
+        private double v;  // Volumen
+        private double vw; // Durchschnittlicher Preis
+        private double o;  // Eröffnungspreis
+        private double c;  // Schlusskurs
+        private double h;  // Höchstpreis
+        private double l;  // Tiefstpreis
+        private long t;    // Zeitstempel
+        private int n;     // Anzahl der Transaktionen
+
+        // Getter und Setter
         public double getV() {
             return v;
         }
@@ -160,7 +168,13 @@ public class StockMarketAPIResponse {
         }
     }
 
-    // Method to Parse JSON
+    /**
+     * Erstellt eine Instanz von {@link StockMarketAPIResponse} aus einem JSON-String.
+     *
+     * @param json Der JSON-String, der die API-Antwort repräsentiert.
+     * @return Ein Objekt von {@link StockMarketAPIResponse}.
+     * @throws IOException Wenn ein Fehler beim Parsen des JSON auftritt.
+     */
     public static StockMarketAPIResponse fromJson(String json) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(json, StockMarketAPIResponse.class);
